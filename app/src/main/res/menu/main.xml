@@ -2,6 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/spinner"
+        android:title="@string/toolbar_spinner"
+        app:actionViewClass="android.widget.Spinner"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/sync"
+        android:title="@string/toolbar_sync"
+        android:icon="@drawable/ic_action_sync"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/shareusers"
+        android:title="@string/toolbar_adduser"
+        android:icon="@drawable/ic_action_user"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

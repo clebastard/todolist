@@ -1,8 +1,21 @@
 <resources>
+    <!-- Application name -->
     <string name="app_name">My Application</string>
 
+    <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Toolbar -->
+    <string name="toolbar_spinner">Spinner</string>
+    <string name="toolbar_sync">Sync</string>
+    <string name="toolbar_adduser">Add user</string>
+
+    <!-- Spinner -->
+    <string name="spinner_item1">List item 1</string>
+    <string name="spinner_item2">List item 2</string>
+    <string name="spinner_item3">List item 3</string>
+
+    <!-- Action overflow-->
     <string name="action_settings">Settings</string>
 </resources>
