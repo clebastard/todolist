@@ -131,23 +131,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_list) {
-            fragment = new ListFragment();
-            TAG = "item";
+        switch (id) {
+            case R.id.nav_list:
+                fragment = new ListFragment();
+                TAG = "item";
+                break;
+            case R.id.nav_setting:
+                fragment = new SettingsFragment();
+                TAG = "settings";
+                break;
         }
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
 
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
