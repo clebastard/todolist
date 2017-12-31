@@ -31,10 +31,6 @@ import static com.example.myapplication.utils.Utility.setTintDrawable;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<Item> itemList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ItemAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

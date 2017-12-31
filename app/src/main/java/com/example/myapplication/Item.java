@@ -1,24 +1,34 @@
 package com.example.myapplication;
 
 /**
- * Created by Catherine on 12/26/2017.
+ * Created by Catherine on 12/30/2017.
  */
 
 public class Item {
-    private String item;
+    private String title, genre;
 
-    public Item(){
+    public Item() {
     }
 
-    public Item(String item){
-        this.item = item;
+    public Item(String title, String genre) {
+        this.title = title;
+        this.genre = genre;
     }
 
-    public void setItem(String item){
-        this.item = item;
+    public String getTitle() {
+        return title;
     }
 
-    public String getItem(){
-        return item;
+    public void setTitle(String name) {
+        this.title = name;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }
+
