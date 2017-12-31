@@ -5,30 +5,30 @@ package com.example.myapplication;
  */
 
 public class Item {
-    private String title, genre;
+    private String task, activity;
 
     public Item() {
     }
 
-    public Item(String title, String genre) {
-        this.title = title;
-        this.genre = genre;
+    public Item(String task, String activity) {
+        this.task = task;
+        this.activity = activity;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTask() {
+        return task;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setTask(String name) {
+        this.task = name;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getActivity() {
+        return activity;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
 }
 

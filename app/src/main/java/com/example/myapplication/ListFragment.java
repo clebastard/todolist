@@ -45,28 +45,28 @@ public class ListFragment extends Fragment {
     }
 
     private void prepareData() {
-        Item item = new Item("Strawberry", "Fruits");
+        Item item = new Item("Buy fruits", "Shopping");
         itemList.add(item);
 
-        item = new Item("Grapes", "Fruits");
+        item = new Item("Clean kitchen", "Cleaning");
         itemList.add(item);
 
-        item = new Item("Tea", "Beverage");
+        item = new Item("Buy chocolate", "Shopping");
         itemList.add(item);
 
-        item = new Item("Coffee", "Beverage");
+        item = new Item("Throw garbage", "Cleaning");
         itemList.add(item);
 
-        item = new Item("Oreo", "Cookies");
+        item = new Item("Send an email to my best friend", "Social");
         itemList.add(item);
 
-        item = new Item("Chocolate Bear Paws", "Cookies");
+        item = new Item("Post vacation pictures on Facebook", "Social");
         itemList.add(item);
 
-        item = new Item("Bread", "Baking goods");
+        item = new Item("Buy pens", "Shopping");
         itemList.add(item);
 
-        item = new Item("Toothpaste", "Bathroom");
+        item = new Item("Clean bedroom", "Cleaning");
         itemList.add(item);
 
         mAdapter.notifyDataSetChanged();

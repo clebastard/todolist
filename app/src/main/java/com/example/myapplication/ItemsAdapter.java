@@ -21,8 +21,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            genre = (TextView) view.findViewById(R.id.genre);
+            title = (TextView) view.findViewById(R.id.task);
+            genre = (TextView) view.findViewById(R.id.activity);
         }
     }
 
@@ -42,8 +42,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Item item = itemsList.get(position);
-        holder.title.setText(item.getTitle());
-        holder.genre.setText(item.getGenre());
+        holder.title.setText(item.getTask());
+        holder.genre.setText(item.getActivity());
     }
 
     @Override
