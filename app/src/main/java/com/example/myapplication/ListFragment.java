@@ -47,10 +47,13 @@ public class ListFragment extends Fragment {
     }
 
     private void prepareData() {
-
+        // Get the tasks array
         List<String> myTasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
+        // Get the actions of task1 array
         List<String> ActionTasks1 = Arrays.asList((getResources().getStringArray(R.array.actionTask1)));
+        // Get the actions of task2 array
         List<String> ActionTasks2 = Arrays.asList((getResources().getStringArray(R.array.actionTask2)));
+        // Get the actions of task2 array
         List<String> ActionTasks3 = Arrays.asList((getResources().getStringArray(R.array.actionTask3)));
 
         Item item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask11))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
