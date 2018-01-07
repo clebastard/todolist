@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,28 +47,34 @@ public class ListFragment extends Fragment {
     }
 
     private void prepareData() {
-        Item item = new Item("Buy fruits", "Shopping");
+
+        List<String> myTasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
+        List<String> ActionTasks1 = Arrays.asList((getResources().getStringArray(R.array.actionTask1)));
+        List<String> ActionTasks2 = Arrays.asList((getResources().getStringArray(R.array.actionTask2)));
+        List<String> ActionTasks3 = Arrays.asList((getResources().getStringArray(R.array.actionTask3)));
+
+        Item item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask11))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
         itemList.add(item);
 
-        item = new Item("Clean kitchen", "Cleaning");
+        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask21))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
         itemList.add(item);
 
-        item = new Item("Buy chocolate", "Shopping");
+        item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask12))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
         itemList.add(item);
 
-        item = new Item("Throw garbage", "Cleaning");
+        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask21))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
         itemList.add(item);
 
-        item = new Item("Send an email to my best friend", "Social");
+        item = new Item(ActionTasks3.get(ActionTasks3.indexOf(getString(R.string.actionTask31))), myTasks.get(myTasks.indexOf(getString(R.string.task3))));
         itemList.add(item);
 
-        item = new Item("Post vacation pictures on Facebook", "Social");
+        item = new Item(ActionTasks3.get(ActionTasks3.indexOf(getString(R.string.actionTask32))), myTasks.get(myTasks.indexOf(getString(R.string.task3))));
         itemList.add(item);
 
-        item = new Item("Buy pens", "Shopping");
+        item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask13))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
         itemList.add(item);
 
-        item = new Item("Clean bedroom", "Cleaning");
+        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask23))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
         itemList.add(item);
 
         mAdapter.notifyDataSetChanged();

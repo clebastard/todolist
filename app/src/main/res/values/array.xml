@@ -5,4 +5,23 @@
         <item>@string/spinner_item2</item>
         <item>@string/spinner_item3</item>
     </array>
+    <array name="tasks">
+        <item>@string/task1</item>
+        <item>@string/task2</item>
+        <item>@string/task3</item>
+    </array>
+    <array name="actionTask1">
+        <item>@string/actionTask11</item>
+        <item>@string/actionTask12</item>
+        <item>@string/actionTask13</item>
+    </array>
+    <array name="actionTask2">
+        <item>@string/actionTask21</item>
+        <item>@string/actionTask22</item>
+        <item>@string/actionTask23</item>
+    </array>
+    <array name="actionTask3">
+        <item>@string/actionTask31</item>
+        <item>@string/actionTask32</item>
+    </array>
 </resources>

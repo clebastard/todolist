@@ -22,4 +22,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_fragment1">Item Fragment</string>
     <string name="text_fragment2">Setting Fragment</string>
+
+    <!-- Tasks -->
+    <string name="task1">Shopping</string>
+    <string name="task2">Cleaning</string>
+    <string name="task3">Social</string>
+
+    <!--Actions-->
+    <string name="actionTask11">Buy Fruits</string>
+    <string name="actionTask12">Buy Chocolate</string>
+    <string name="actionTask13">Buy Pens</string>
+    <string name="actionTask21">Clean Kitchen</string>
+    <string name="actionTask22">Throw Garbage</string>
+    <string name="actionTask23">Clean Bedroom</string>
+    <string name="actionTask31">Send an email to a best friend</string>
+    <string name="actionTask32">Post vacation picture on Facebook</string>
 </resources>
