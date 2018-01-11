@@ -5,6 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorIvory">#FEFEFE</color>
     <color name="colorGray">#444444</color>
+    <color name="colorLightGray">#cccccc</color>
+    <color name="colorBlack">#000000</color>
     <color name="year">#999999</color>
     <color name="title">#222222</color>
 </resources>

@@ -3,8 +3,6 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,13 +13,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
-    private java.util.List itemList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ItemsAdapter mAdapter;
+    private SectionedRecyclerViewAdapter sectionAdapter;
+
+    private RecyclerView sectionHeader;
 
     public ListFragment() {
         // Required empty public constructor
@@ -33,53 +33,30 @@ public class ListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        
+        sectionAdapter = new SectionedRecyclerViewAdapter();
+        List<String> tasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
+        sectionHeader = (RecyclerView) layout.findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        sectionHeader.setLayoutManager(linearLayoutManager);
+        sectionHeader.setHasFixedSize(true);
+        sectionAdapter = new SectionedRecyclerViewAdapter();
+        for (int i = 0; i < getResources().getStringArray(R.array.tasks).length; i++)
+        {
+            HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(tasks.get(i), getDataTasks(i+1));
+            sectionAdapter.addSection(newSection);
+        }
+        sectionHeader.setAdapter(sectionAdapter);
 
-        mAdapter = new ItemsAdapter(itemList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(mAdapter);
-
-        prepareData();
         return layout;
     }
 
-    private void prepareData() {
-        // Get the tasks array
-        List<String> myTasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
-        // Get the actions of task1 array
-        List<String> ActionTasks1 = Arrays.asList((getResources().getStringArray(R.array.actionTask1)));
-        // Get the actions of task2 array
-        List<String> ActionTasks2 = Arrays.asList((getResources().getStringArray(R.array.actionTask2)));
-        // Get the actions of task2 array
-        List<String> ActionTasks3 = Arrays.asList((getResources().getStringArray(R.array.actionTask3)));
-
-        Item item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask11))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask21))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask12))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask21))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks3.get(ActionTasks3.indexOf(getString(R.string.actionTask31))), myTasks.get(myTasks.indexOf(getString(R.string.task3))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks3.get(ActionTasks3.indexOf(getString(R.string.actionTask32))), myTasks.get(myTasks.indexOf(getString(R.string.task3))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks1.get(ActionTasks1.indexOf(getString(R.string.actionTask13))), myTasks.get(myTasks.indexOf(getString(R.string.task1))));
-        itemList.add(item);
-
-        item = new Item(ActionTasks2.get(ActionTasks2.indexOf(getString(R.string.actionTask23))), myTasks.get(myTasks.indexOf(getString(R.string.task2))));
-        itemList.add(item);
-
-        mAdapter.notifyDataSetChanged();
+    private List<String> getDataTasks(int i){
+        List<String> data = new ArrayList<>();
+        int action = getResources().getIdentifier("actionTask" + i, "array", getActivity().getPackageName());
+        for (String actionTask : getResources().getStringArray(action)) {
+            data.add(actionTask);
+        }
+        return data;
     }
 }

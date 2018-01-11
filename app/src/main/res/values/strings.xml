@@ -22,6 +22,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_fragment1">Item Fragment</string>
     <string name="text_fragment2">Setting Fragment</string>
+    <string name="sample">Lorem Ipsum is simply dummy text of the printing and typesetting industry</string>
 
     <!-- Tasks -->
     <string name="task1">Shopping</string>
