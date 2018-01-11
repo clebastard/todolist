@@ -33,7 +33,7 @@ public class ListFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
-        
+
         sectionAdapter = new SectionedRecyclerViewAdapter();
         List<String> tasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
         sectionHeader = (RecyclerView) layout.findViewById(R.id.recycler_view);
