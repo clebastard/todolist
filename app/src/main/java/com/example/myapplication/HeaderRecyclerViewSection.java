@@ -14,22 +14,16 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
  */
 
 public class HeaderRecyclerViewSection extends StatelessSection {
-    private static final String TAG = HeaderRecyclerViewSection.class.getSimpleName();
     private String title;
     private List<String> list;
+
     public HeaderRecyclerViewSection(String title, List<String> list) {
-        super(new SectionParameters.Builder(R.layout.header_layout)
-                .headerResourceId(R.layout.item_layout)
+        super(new SectionParameters.Builder(R.layout.item_layout)
+                .headerResourceId(R.layout.header_layout)
                 .build());
+
         this.title = title;
         this.list = list;
-    }
-
-    /*
-    * Custom Click Listener for the custom dialog
-    */
-    public interface ListItemClickListener{
-        void onListItemClickListener(int clickedItemIndex, long id, ImageView btn);
     }
 
     @Override
@@ -52,7 +46,7 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         return new HeaderViewHolder(view);
     }
-    
+
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         HeaderViewHolder hHolder = (HeaderViewHolder)holder;

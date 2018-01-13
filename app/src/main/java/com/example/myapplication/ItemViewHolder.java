@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder{
     public TextView itemContent;
-    private HeaderRecyclerViewSection.ListItemClickListener mListener;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
