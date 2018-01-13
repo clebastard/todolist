@@ -36,19 +36,23 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     public int getContentItemsTotal() {
         return list.size();
     }
+
     @Override
     public RecyclerView.ViewHolder getItemViewHolder(View view) {
         return new ItemViewHolder(view);
     }
+
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         ItemViewHolder iHolder = (ItemViewHolder)holder;
         iHolder.itemContent.setText(list.get(position));
     }
+
     @Override
     public RecyclerView.ViewHolder getHeaderViewHolder(View view) {
         return new HeaderViewHolder(view);
     }
+    
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         HeaderViewHolder hHolder = (HeaderViewHolder)holder;
