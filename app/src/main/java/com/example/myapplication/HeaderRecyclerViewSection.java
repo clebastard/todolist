@@ -2,9 +2,11 @@ package com.example.myapplication;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.List;
 
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 /**
@@ -16,10 +18,20 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     private String title;
     private List<String> list;
     public HeaderRecyclerViewSection(String title, List<String> list) {
-        super(R.layout.header_layout, R.layout.item_layout);
+        super(new SectionParameters.Builder(R.layout.header_layout)
+                .headerResourceId(R.layout.item_layout)
+                .build());
         this.title = title;
         this.list = list;
     }
+
+    /*
+    * Custom Click Listener for the custom dialog
+    */
+    public interface ListItemClickListener{
+        void onListItemClickListener(int clickedItemIndex, long id, ImageView btn);
+    }
+
     @Override
     public int getContentItemsTotal() {
         return list.size();
