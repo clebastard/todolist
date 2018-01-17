@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -38,8 +39,17 @@ public class HeaderRecyclerViewSection extends StatelessSection {
 
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ItemViewHolder iHolder = (ItemViewHolder)holder;
-        iHolder.itemContent.setText(list.get(position));
+        final ItemViewHolder iHolder = (ItemViewHolder)holder;
+        final String name = list.get(position);
+        iHolder.itemContent.setText(name);
+
+        iHolder.rootView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ListFragment.showDeleteConfirmationDialog(ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()));
+                //Toast.makeText(view.getContext(), "Position " + ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -1,13 +1,19 @@
 package com.example.myapplication;
 
 
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +25,9 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapt
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
-    private SectionedRecyclerViewAdapter sectionAdapter;
+    public static SectionedRecyclerViewAdapter sectionAdapter;
+    private static Context context = null;
+    private static String title;
 
     private RecyclerView sectionHeader;
 
@@ -31,6 +39,8 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        context = getActivity();
+        title = getString(R.string.askDelete);
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
 
@@ -58,5 +68,30 @@ public class ListFragment extends Fragment {
             data.add(actionTask);
         }
         return data;
+    }
+
+    public static void showDeleteConfirmationDialog(final long idx) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(title);
+        builder.setPositiveButton(R.string.deleteTitle, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(context, context.getString(R.string.inDevelopment) + " position " + idx,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton(R.string.cancelTitle, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the list.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 }

@@ -38,4 +38,10 @@
     <string name="actionTask23">Clean Bedroom</string>
     <string name="actionTask31">Send an email to a best friend</string>
     <string name="actionTask32">Post vacation picture on Facebook</string>
+
+    <!-- Messages -->
+    <string name="askDelete">Do you want to delete this item?</string>
+    <string name="deleteTitle">Delete</string>
+    <string name="cancelTitle">Cancel</string>
+    <string name="inDevelopment">In development...</string>
 </resources>

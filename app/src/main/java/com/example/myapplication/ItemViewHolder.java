@@ -10,9 +10,12 @@ import android.widget.TextView;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder{
     public TextView itemContent;
+    public View rootView;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
+
+        rootView = itemView;
         itemContent = (TextView)itemView.findViewById(R.id.item_content);
     }
 }
