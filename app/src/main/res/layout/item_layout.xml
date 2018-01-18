@@ -5,29 +5,16 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:orientation="vertical">
-    <RelativeLayout
+    <TextView
+        android:id="@+id/item_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/item_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="14dp" />
-        <ImageView
-            android:id="@+id/action_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/activity_half_margin"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/colorGray" />
-    </RelativeLayout>
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:textSize="14dp"
+        android:textColor="@color/colorPrimaryDark" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
