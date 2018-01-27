@@ -17,12 +17,7 @@
     <string name="spinner_item3">List item 3</string>
 
     <!-- Action overflow-->
-    <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="text_fragment1">Item Fragment</string>
-    <string name="text_fragment2">Setting Fragment</string>
-    <string name="sample">Lorem Ipsum is simply dummy text of the printing and typesetting industry</string>
+    <string name="action_email">Send Email</string>
 
     <!-- Tasks -->
     <string name="task1">Shopping</string>
@@ -44,4 +39,12 @@
     <string name="deleteTitle">Delete</string>
     <string name="cancelTitle">Cancel</string>
     <string name="inDevelopment">In development...</string>
+
+    <!-- Title -->
+    <string name="AddList">Add List</string>
+    <string name="EditList">Edit List</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_fragment1">Item Fragment</string>
+    <string name="text_fragment2">Setting Fragment</string>
 </resources>

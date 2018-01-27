@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -50,7 +51,9 @@ public class HeaderRecyclerViewSection extends StatelessSection {
         iHolder.rootView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Position " + ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
+                Intent ilist = new Intent(context, ListActivity.class);
+                context.startActivity(ilist);
+                //Toast.makeText(view.getContext(), "Position " + ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
             }
         });
 
