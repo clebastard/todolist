@@ -114,10 +114,6 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_email) {
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Test");
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
             return true;
         }
 
