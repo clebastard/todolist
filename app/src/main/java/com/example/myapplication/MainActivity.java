@@ -20,6 +20,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.example.myapplication.utils.Utility.setTintDrawable;
 
@@ -115,13 +119,38 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_email) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, "Test");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, generateText().toString());
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
+            //Toast.makeText(getApplicationContext(), generateText(), Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private StringBuilder generateText() {
+        StringBuilder text = new StringBuilder();
+        // Task array
+        List<String> tasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
+        // Length of the task array
+        int count = getResources().getStringArray(R.array.tasks).length;
+
+        for (int i = 0; i < count; i++) {
+            // Appending the task
+            text.append(tasks.get(i)).append("\n");
+            // Retrieving the resource of a string variable
+            int action = getResources().getIdentifier("actionTask" + (i + 1), "array", this.getPackageName());
+            // Appending the subtask for the specific task
+            for (String actionTask : getResources().getStringArray(action)) {
+                text.append(actionTask);
+                // Only adds a new line to the subtask if the task is not the last one
+                if (i < (count - 1)) text.append("\n");
+            }
+            // Only adds a new line if the task is not the last one
+            if (i < (count - 1)) text.append("\n");
+        }
+        return text;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

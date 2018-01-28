@@ -53,6 +53,7 @@ public class ListFragment extends Fragment {
     }
 
     private List<String> getDataTasks(int i){
+
         List<String> data = new ArrayList<>();
         int action = getResources().getIdentifier("actionTask" + i, "array", getActivity().getPackageName());
         for (String actionTask : getResources().getStringArray(action)) {
