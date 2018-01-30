@@ -44,6 +44,16 @@
     <string name="AddList">Add List</string>
     <string name="EditList">Edit List</string>
 
+    <!-- Dropdown preference -->
+    <string name="pref_list_label" translatable="false">List</string>
+    <string name="pref_list_key" translatable="false">List</string>
+    <string name="pref_show_dropdown_label">Show dropdown list</string>
+    <string name="pref_show_dropdown_key" translatable="false">show_dropdown</string>
+
+    <!-- Summary for Checkboxes -->
+    <string name="pref_show_true">Shown</string>
+    <string name="pref_show_false">Hidden</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_fragment1">Item Fragment</string>
     <string name="text_fragment2">Setting Fragment</string>
