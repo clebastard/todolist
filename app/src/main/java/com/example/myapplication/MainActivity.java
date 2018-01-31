@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        /*getMenuInflater().inflate(R.menu.main, menu);
 
         MenuItem item = menu.findItem(R.id.spinner);
         final Spinner spinner = (Spinner) item.getActionView();
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
+        });*/
         return true;
     }
 

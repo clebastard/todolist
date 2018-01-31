@@ -43,6 +43,8 @@
     <!-- Title -->
     <string name="AddList">Add List</string>
     <string name="EditList">Edit List</string>
+    <string name="Settings">Settings</string>
+    <string name="List">List</string>
 
     <!-- Dropdown preference -->
     <string name="pref_list_label" translatable="false">List</string>
