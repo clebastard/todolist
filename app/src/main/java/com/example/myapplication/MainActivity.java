@@ -74,38 +74,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        /*getMenuInflater().inflate(R.menu.main, menu);
-
-        MenuItem item = menu.findItem(R.id.spinner);
-        final Spinner spinner = (Spinner) item.getActionView();
-
-        MenuItem sync = menu.findItem(R.id.sync);
-        MenuItem shareusers = menu.findItem(R.id.shareusers);
-        setTintDrawable(sync.getIcon(), Color.WHITE);
-        setTintDrawable(shareusers.getIcon(), Color.WHITE);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_list_item_array, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                int width = 0;
-                String text = adapterView.getItemAtPosition(pos).toString();
-                //if (text.length() > 60) width = 60;
-                ViewGroup.LayoutParams spinnerLayoutParams = spinner.getLayoutParams();
-                //spinnerLayoutParams.width -= 1;
-                spinnerLayoutParams.width = 80;
-                spinner.setLayoutParams(spinnerLayoutParams);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });*/
         return true;
     }
 

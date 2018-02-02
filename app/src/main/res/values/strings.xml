@@ -49,7 +49,7 @@
     <!-- Dropdown preference -->
     <string name="pref_list_label" translatable="false">List</string>
     <string name="pref_list_key" translatable="false">List</string>
-    <string name="pref_show_dropdown_label">Show dropdown list</string>
+    <string name="pref_show_dropdown_label">Show drop down list</string>
     <string name="pref_show_dropdown_key" translatable="false">show_dropdown</string>
 
     <!-- Summary for Checkboxes -->
