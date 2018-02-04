@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="@string/pref_list_key"
+        android:title="@string/pref_list_label">
+        <CheckBoxPreference
+            android:defaultValue="@bool/pref_show_dropdown_default"
+            android:key="@string/pref_show_dropdown_key"
+            android:summaryOff="@string/pref_show_false"
+            android:summaryOn="@string/pref_show_true"
+            android:title="@string/pref_show_dropdown_label" />
+    </PreferenceCategory>
+</PreferenceScreen>

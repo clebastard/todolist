@@ -1,14 +1,12 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +20,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.myapplication.utils.Utility.setTintDrawable;
@@ -75,38 +74,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        MenuItem item = menu.findItem(R.id.spinner);
-        final Spinner spinner = (Spinner) item.getActionView();
-
-        MenuItem sync = menu.findItem(R.id.sync);
-        MenuItem shareusers = menu.findItem(R.id.shareusers);
-        setTintDrawable(sync.getIcon(), Color.WHITE);
-        setTintDrawable(shareusers.getIcon(), Color.WHITE);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_list_item_array, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                int width = 0;
-                String text = adapterView.getItemAtPosition(pos).toString();
-                //if (text.length() > 60) width = 60;
-                ViewGroup.LayoutParams spinnerLayoutParams = spinner.getLayoutParams();
-                //spinnerLayoutParams.width -= 1;
-                spinnerLayoutParams.width = 80;
-                spinner.setLayoutParams(spinnerLayoutParams);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
         return true;
     }
 
@@ -118,11 +85,40 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_email) {
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, generateText().toString());
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+            //Toast.makeText(getApplicationContext(), generateText(), Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private StringBuilder generateText() {
+        StringBuilder text = new StringBuilder();
+        // Task array
+        List<String> tasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
+        // Length of the task array
+        int count = getResources().getStringArray(R.array.tasks).length;
+
+        for (int i = 0; i < count; i++) {
+            // Appending the task
+            text.append(tasks.get(i)).append("\n");
+            // Retrieving the resource of a string variable
+            int action = getResources().getIdentifier("actionTask" + (i + 1), "array", this.getPackageName());
+            // Appending the subtask for the specific task
+            for (String actionTask : getResources().getStringArray(action)) {
+                text.append(actionTask);
+                // Only adds a new line to the subtask if the task is not the last one
+                if (i < (count - 1)) text.append("\n");
+            }
+            // Only adds a new line if the task is not the last one
+            if (i < (count - 1)) text.append("\n");
+        }
+        return text;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

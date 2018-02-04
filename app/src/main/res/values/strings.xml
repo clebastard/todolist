@@ -17,12 +17,7 @@
     <string name="spinner_item3">List item 3</string>
 
     <!-- Action overflow-->
-    <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="text_fragment1">Item Fragment</string>
-    <string name="text_fragment2">Setting Fragment</string>
-    <string name="sample">Lorem Ipsum is simply dummy text of the printing and typesetting industry</string>
+    <string name="action_email">Send Email</string>
 
     <!-- Tasks -->
     <string name="task1">Shopping</string>
@@ -38,4 +33,30 @@
     <string name="actionTask23">Clean Bedroom</string>
     <string name="actionTask31">Send an email to a best friend</string>
     <string name="actionTask32">Post vacation picture on Facebook</string>
+
+    <!-- Messages -->
+    <string name="askDelete">Do you want to delete this item?</string>
+    <string name="deleteTitle">Delete</string>
+    <string name="cancelTitle">Cancel</string>
+    <string name="inDevelopment">In development...</string>
+
+    <!-- Title -->
+    <string name="AddList">Add List</string>
+    <string name="EditList">Edit List</string>
+    <string name="Settings">Settings</string>
+    <string name="List">List</string>
+
+    <!-- Dropdown preference -->
+    <string name="pref_list_label" translatable="false">List</string>
+    <string name="pref_list_key" translatable="false">List</string>
+    <string name="pref_show_dropdown_label">Show drop down list</string>
+    <string name="pref_show_dropdown_key" translatable="false">show_dropdown</string>
+
+    <!-- Summary for Checkboxes -->
+    <string name="pref_show_true">Shown</string>
+    <string name="pref_show_false">Hidden</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_fragment1">Item Fragment</string>
+    <string name="text_fragment2">Setting Fragment</string>
 </resources>
