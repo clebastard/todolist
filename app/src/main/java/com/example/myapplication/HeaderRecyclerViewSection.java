@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myapplication.model.TaskDetail;
+
 import java.util.List;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
@@ -19,10 +21,10 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 public class HeaderRecyclerViewSection extends StatelessSection {
     private String title;
-    private List<String> list;
+    private List<TaskDetail> list;
     private Context context;
 
-    public HeaderRecyclerViewSection(Context context, String title, List<String> list) {
+    public HeaderRecyclerViewSection(Context context, String title, List<TaskDetail> list) {
         super(new SectionParameters.Builder(R.layout.item_layout)
                 .headerResourceId(R.layout.header_layout)
                 .build());
@@ -45,7 +47,7 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     @Override
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ItemViewHolder iHolder = (ItemViewHolder)holder;
-        final String name = list.get(position);
+        final String name = list.get(position).getDescription();
         iHolder.itemContent.setText(name);
 
         iHolder.rootView.setOnClickListener(new View.OnClickListener(){

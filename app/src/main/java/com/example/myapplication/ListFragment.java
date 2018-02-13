@@ -1,8 +1,12 @@
 package com.example.myapplication;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +24,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.myapplication.data.TaskContract;
+import com.example.myapplication.data.TaskDbHelper;
+import com.example.myapplication.model.TaskDetail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +42,9 @@ import static com.example.myapplication.utils.Utility.setTintDrawable;
 public class ListFragment extends Fragment {
     public static SectionedRecyclerViewAdapter sectionAdapter;
     private RecyclerView sectionHeader;
-
+    /** Database helper that will provide us access to the database */
+    private TaskDbHelper mDbHelper;
+    private SQLiteDatabase mDb;
     /*
     * Indicate this fragment has menu
     */
@@ -51,6 +61,13 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
 
+        // To access our database, we instantiate our subclass of SQLiteOpenHelper
+        // and pass the context, which is the current activity.
+        mDbHelper = new TaskDbHelper(getContext());
+        mDb = mDbHelper.getWritableDatabase();
+
+        //insertTaskData(mDb);
+
         getActivity().setTitle(R.string.List);
         sectionAdapter = new SectionedRecyclerViewAdapter();
         List<String> tasks = Arrays.asList((getResources().getStringArray(R.array.tasks)));
@@ -59,11 +76,44 @@ public class ListFragment extends Fragment {
         sectionHeader.setLayoutManager(linearLayoutManager);
         sectionHeader.setHasFixedSize(true);
         sectionAdapter = new SectionedRecyclerViewAdapter();
-        for (int i = 0; i < getResources().getStringArray(R.array.tasks).length; i++)
-        {
-            HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), tasks.get(i), getDataTasks(i+1));
+
+        Cursor cursor = getAllTasks();
+        List<TaskDetail> data = new ArrayList<TaskDetail>();
+        //int i = 1;
+        String group = null;
+        if (cursor != null) {
+            // move cursor to first row
+            if (cursor.moveToFirst()) {
+                do {
+                    // Get data from Cursor
+                    int id = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry._ID));
+                    String taskName = cursor.getString(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME));
+                    String parentTask = cursor.getString(cursor.getColumnIndex("parent"));
+                    int priority = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_PRIORITY));
+                    if (group == null) {
+                        group = parentTask;
+                        data.add(new TaskDetail(id, taskName, parentTask, priority));
+                    } else if (!group.equals(parentTask)) {
+                        HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data);
+                        sectionAdapter.addSection(newSection);
+                        group = parentTask;
+                        data = new ArrayList<TaskDetail>();
+                        data.add(new TaskDetail(id, taskName, parentTask, priority));
+                    } else {
+                        data.add(new TaskDetail(id, taskName, parentTask, priority));
+                    }
+                    //Toast.makeText(getContext(), parentTask + " " + taskName, Toast.LENGTH_SHORT).show();
+                    // add the bookName into the bookTitles ArrayList
+                    //HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), taskName, getDataTasks(i));
+                    //sectionAdapter.addSection(newSection);
+                    //i++;
+                    // move to next row
+                } while (cursor.moveToNext());
+            }
+            HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data);
             sectionAdapter.addSection(newSection);
         }
+
         sectionHeader.setAdapter(sectionAdapter);
 
         return layout;
@@ -124,5 +174,28 @@ public class ListFragment extends Fragment {
             data.add(actionTask);
         }
         return data;
+    }
+
+    // Query the mDb and get all tasks from the table
+    private Cursor getAllTasks() {
+        String table = TaskContract.TaskEntry.TABLE_NAME + " , " + TaskContract.TaskDetailEntry.TABLE_NAME;
+        String columns[] = {
+            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID,
+            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME,
+            TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " AS parent",
+            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PRIORITY
+        };
+        String selection = TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry._ID + " = " + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID;
+        String group = TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID + "," + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID;
+        String order = TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + "," + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME;
+        return mDb.query(
+                table,
+                columns,
+                selection,
+                null,
+                group,
+                null,
+                order
+        );
     }
 }
