@@ -28,6 +28,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myapplication.MainActivity" />
         </activity>
+        <provider
+            android:name=".data.TaskProvider"
+            android:authorities="com.example.myapplication"
+            android:exported="false" />
     </application>
 
 </manifest>

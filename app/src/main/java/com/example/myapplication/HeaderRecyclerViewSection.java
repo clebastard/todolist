@@ -1,13 +1,17 @@
 package com.example.myapplication;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.myapplication.data.TaskContract;
 import com.example.myapplication.model.TaskDetail;
 
 import java.util.List;
@@ -23,8 +27,9 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     private String title;
     private List<TaskDetail> list;
     private Context context;
+    final private ListItemClickListener mOnClickListener;
 
-    public HeaderRecyclerViewSection(Context context, String title, List<TaskDetail> list) {
+    public HeaderRecyclerViewSection(Context context, String title, List<TaskDetail> list, ListItemClickListener mOnClickListener) {
         super(new SectionParameters.Builder(R.layout.item_layout)
                 .headerResourceId(R.layout.header_layout)
                 .build());
@@ -32,6 +37,14 @@ public class HeaderRecyclerViewSection extends StatelessSection {
         this.context = context;
         this.title = title;
         this.list = list;
+        this.mOnClickListener = mOnClickListener;
+    }
+
+    /*
+     * Custom Click Listener for the custom dialog
+     */
+    public interface ListItemClickListener{
+        void onListItemClickListener(long id);
     }
 
     @Override
@@ -48,13 +61,19 @@ public class HeaderRecyclerViewSection extends StatelessSection {
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ItemViewHolder iHolder = (ItemViewHolder)holder;
         final String name = list.get(position).getDescription();
+        final long id = list.get(position).getId();
+
         iHolder.itemContent.setText(name);
 
         iHolder.rootView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent ilist = new Intent(context, ListActivity.class);
-                context.startActivity(ilist);
+                Intent intent = new Intent(context, ListActivity.class);
+                Uri currentUri = ContentUris.withAppendedId(TaskContract.TaskDetailEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentUri);
+                context.startActivity(intent);
                 //Toast.makeText(view.getContext(), "Position " + ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()), Toast.LENGTH_SHORT).show();
             }
         });
@@ -62,7 +81,8 @@ public class HeaderRecyclerViewSection extends StatelessSection {
         iHolder.actionDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDeleteConfirmationDialog(context, ListFragment.sectionAdapter.getPositionInSection(iHolder.getAdapterPosition()));
+                mOnClickListener.onListItemClickListener(id);
+                //showDeleteConfirmationDialog(context, id);
             }
         });
     }
@@ -78,28 +98,27 @@ public class HeaderRecyclerViewSection extends StatelessSection {
         hHolder.headerTitle.setText(title);
     }
 
-    public void showDeleteConfirmationDialog(final Context context, final long idx) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getString(R.string.askDelete));
-        builder.setPositiveButton(R.string.deleteTitle, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Toast.makeText(context, context.getString(R.string.inDevelopment) + " position " + idx,
+    /**
+     * Perform the deletion of the pet in the database.
+     */
+    /*private void deletePet() {
+        // Only perform the delete if this is an existing pet.
+        if (mCurrentPetUri != null) {
+            // Call the ContentResolver to delete the pet at the given content URI.
+            // Pass in null for the selection and selection args because the mCurrentPetUri
+            // content URI already identifies the pet that we want.
+            int rowsDeleted = getContentResolver().delete(mCurrentPetUri, null, null);
+
+            // Show a toast message depending on whether or not the delete was successful.
+            if (rowsDeleted == 0) {
+                // If no rows were deleted, then there was an error with the delete.
+                Toast.makeText(this, getString(R.string.editor_delete_pet_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                // Otherwise, the delete was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_delete_pet_successful),
                         Toast.LENGTH_SHORT).show();
             }
-        });
-        builder.setNegativeButton(R.string.cancelTitle, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the list.
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        // Create and show the AlertDialog
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(false);
-        alertDialog.show();
-    }
+        }
+    }*/
 }

@@ -1,15 +1,18 @@
 package com.example.myapplication;
 
-import android.content.ContentValues;
+import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.net.Uri;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,26 +28,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.myapplication.data.TaskContract;
-import com.example.myapplication.data.TaskDbHelper;
 import com.example.myapplication.model.TaskDetail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
-
 import static com.example.myapplication.utils.Utility.setTintDrawable;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+        HeaderRecyclerViewSection.ListItemClickListener{
     public static SectionedRecyclerViewAdapter sectionAdapter;
     private RecyclerView sectionHeader;
-    /** Database helper that will provide us access to the database */
-    private TaskDbHelper mDbHelper;
-    private SQLiteDatabase mDb;
+
     /*
     * Indicate this fragment has menu
     */
@@ -61,11 +60,6 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
 
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        mDbHelper = new TaskDbHelper(getContext());
-        mDb = mDbHelper.getWritableDatabase();
-
         //insertTaskData(mDb);
 
         getActivity().setTitle(R.string.List);
@@ -75,48 +69,16 @@ public class ListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         sectionHeader.setLayoutManager(linearLayoutManager);
         sectionHeader.setHasFixedSize(true);
-        sectionAdapter = new SectionedRecyclerViewAdapter();
 
-        Cursor cursor = getAllTasks();
-        List<TaskDetail> data = new ArrayList<TaskDetail>();
-        //int i = 1;
-        String group = null;
-        if (cursor != null) {
-            // move cursor to first row
-            if (cursor.moveToFirst()) {
-                do {
-                    // Get data from Cursor
-                    int id = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry._ID));
-                    String taskName = cursor.getString(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME));
-                    String parentTask = cursor.getString(cursor.getColumnIndex("parent"));
-                    int priority = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_PRIORITY));
-                    if (group == null) {
-                        group = parentTask;
-                        data.add(new TaskDetail(id, taskName, parentTask, priority));
-                    } else if (!group.equals(parentTask)) {
-                        HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data);
-                        sectionAdapter.addSection(newSection);
-                        group = parentTask;
-                        data = new ArrayList<TaskDetail>();
-                        data.add(new TaskDetail(id, taskName, parentTask, priority));
-                    } else {
-                        data.add(new TaskDetail(id, taskName, parentTask, priority));
-                    }
-                    //Toast.makeText(getContext(), parentTask + " " + taskName, Toast.LENGTH_SHORT).show();
-                    // add the bookName into the bookTitles ArrayList
-                    //HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), taskName, getDataTasks(i));
-                    //sectionAdapter.addSection(newSection);
-                    //i++;
-                    // move to next row
-                } while (cursor.moveToNext());
-            }
-            HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data);
-            sectionAdapter.addSection(newSection);
-        }
-
-        sectionHeader.setAdapter(sectionAdapter);
+        // Kick off the loader
+        resetLoader(0);
 
         return layout;
+    }
+
+    public void resetLoader(int status) {
+        if (status == 0) getLoaderManager().initLoader(0, null, this);
+        else getLoaderManager().restartLoader(0, null, this);
     }
 
     @Override
@@ -177,13 +139,13 @@ public class ListFragment extends Fragment {
     }
 
     // Query the mDb and get all tasks from the table
-    private Cursor getAllTasks() {
+    /*private Cursor getAllTasks() {
         String table = TaskContract.TaskEntry.TABLE_NAME + " , " + TaskContract.TaskDetailEntry.TABLE_NAME;
         String columns[] = {
-            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID,
-            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME,
-            TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " AS parent",
-            TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PRIORITY
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID,
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME,
+                TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " AS parent",
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PRIORITY
         };
         String selection = TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry._ID + " = " + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID;
         String group = TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID + "," + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID;
@@ -197,5 +159,119 @@ public class ListFragment extends Fragment {
                 null,
                 order
         );
+    }*/
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String selection = null;
+        String[] projection = {
+                TaskContract.TaskDetailViewEntry._ID,
+                TaskContract.TaskDetailViewEntry.COLUMN_TASKDETAIL_NAME,
+                TaskContract.TaskDetailViewEntry.COLUMN_PARENT_NAME,
+                TaskContract.TaskDetailViewEntry.COLUMN_PRIORITY
+        };
+        // this loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(getActivity(),
+                TaskContract.TaskDetailViewEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor != null && cursor.getCount() > 0) {
+        sectionAdapter = new SectionedRecyclerViewAdapter();
+
+        List<TaskDetail> data = new ArrayList<TaskDetail>();
+        //int i = 1;
+        String group = null;
+
+        // move cursor to first row
+        if (cursor.moveToFirst()) {
+            do {
+                // Get data from Cursor
+                int id = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry._ID));
+                String taskName = cursor.getString(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME));
+                String parentTask = cursor.getString(cursor.getColumnIndex("parent"));
+                int priority = cursor.getInt(cursor.getColumnIndex(TaskContract.TaskDetailEntry.COLUMN_PRIORITY));
+                if (group == null) {
+                    group = parentTask;
+                    data.add(new TaskDetail(id, taskName, parentTask, priority));
+                } else if (!group.equals(parentTask)) {
+                    HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data, this);
+                    sectionAdapter.addSection(newSection);
+                    group = parentTask;
+                    data = new ArrayList<TaskDetail>();
+                    data.add(new TaskDetail(id, taskName, parentTask, priority));
+                } else {
+                    data.add(new TaskDetail(id, taskName, parentTask, priority));
+                }
+                //Toast.makeText(getContext(), parentTask + " " + taskName, Toast.LENGTH_SHORT).show();
+                // add the bookName into the bookTitles ArrayList
+                //HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), taskName, getDataTasks(i));
+                //sectionAdapter.addSection(newSection);
+                //i++;
+                // move to next row
+            } while (cursor.moveToNext());
+        }
+        HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), group, data, this);
+        sectionAdapter.addSection(newSection);
+
+
+        sectionHeader.setAdapter(sectionAdapter);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onListItemClickListener(long id) {
+        showDeleteConfirmationDialog(getContext(), id);
+        //Toast.makeText(getContext(), "Test " + id, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showDeleteConfirmationDialog(final Context context, final long idx) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(R.string.askDelete));
+        builder.setPositiveButton(R.string.deleteTitle, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Uri currentUri = ContentUris.withAppendedId(TaskContract.TaskDetailEntry.CONTENT_URI, idx);
+                // Delete row
+                int rowsDeleted = context.getContentResolver().delete(currentUri, null, null);
+
+                // Show a toast message depending on whether or not the delete was successful.
+                if (rowsDeleted == 0) {
+                    Toast.makeText(context, context.getString(R.string.editor_delete_task_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, context.getString(R.string.editor_delete_task_successful),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                //Toast.makeText(context, context.getString(R.string.inDevelopment) + " position " + idx,
+                //        Toast.LENGTH_SHORT).show();
+                // Kick off the loader
+                resetLoader(1);
+            }
+        });
+        builder.setNegativeButton(R.string.cancelTitle, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the list.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 }

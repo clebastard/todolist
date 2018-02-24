@@ -46,9 +46,24 @@ public class TaskDbHelper extends SQLiteOpenHelper {
                 + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID + " INT, "
                 + TaskContract.TaskDetailEntry.COLUMN_PRIORITY + " INT);";
 
+        // Create a String that contains the SQL statement to create the task detail table
+        String SQL_CREATE_TASKDETAIL_VIEW =  "CREATE VIEW " +  TaskContract.TaskDetailViewEntry.VIEW_NAME + " AS SELECT " +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID + "," +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME + "," +
+                TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " AS " + TaskContract.TaskDetailViewEntry.COLUMN_PARENT_NAME + "," +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PRIORITY +
+                " FROM " + TaskContract.TaskDetailEntry.TABLE_NAME +
+                " INNER JOIN " + TaskContract.TaskEntry.TABLE_NAME + " ON " +
+                TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry._ID + " = " +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID +
+                " ORDER BY " + TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " , " +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID + " , " +
+                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME;
+
         // Execute the SQL statement
         db.execSQL(SQL_CREATE_TASK_TABLE);
         db.execSQL(SQL_CREATE_TASKDETAIL_TABLE);
+        db.execSQL(SQL_CREATE_TASKDETAIL_VIEW);
 
         insertTaskData(db);
         insertTaskDetailData(db);
@@ -58,6 +73,7 @@ public class TaskDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskContract.TaskEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskContract.TaskDetailEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + TaskContract.TaskDetailViewEntry.VIEW_NAME);
         onCreate(sqLiteDatabase);
     }
 

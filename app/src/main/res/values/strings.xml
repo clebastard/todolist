@@ -11,6 +11,10 @@
     <string name="toolbar_sync">Sync</string>
     <string name="toolbar_adduser">Add user</string>
 
+    <!-- Menu -->
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+
     <!-- Spinner -->
     <string name="spinner_item1">List item 1</string>
     <string name="spinner_item2">List item 2</string>
@@ -40,11 +44,30 @@
     <string name="cancelTitle">Cancel</string>
     <string name="inDevelopment">In development...</string>
 
+    <!-- CRUD Content Provider -->
+    <string name="query_error">Query is not supported for</string>
+    <string name="unknow_error">Unknown URI</string>
+    <string name="with_match">with match</string>
+    <string name="insert_error">Insertion is not supported for</string>
+    <string name="insert_row_error">Failed to insert row for</string>
+    <string name="miss_insert_table">Requires a value</string>
+    <string name="miss_update_table">Update is not supported for </string>
+    <string name="miss_delete_table">Deletion is not supported for </string>
+    <string name="editor_delete_task_successful">Task deleted</string>
+    <string name="editor_delete_task_failed">Error with deleting task</string>
+    <string name="editor_insert_task_successful">Task saved</string>
+    <string name="editor_insert_task_failed">Error with saving task</string>
+    <string name="editor_update_task_successful">Task updated</string>
+    <string name="editor_update_task_failed">Error with updating task</string>
+
+
     <!-- Title -->
     <string name="AddList">Add List</string>
     <string name="EditList">Edit List</string>
     <string name="Settings">Settings</string>
     <string name="List">List</string>
+    <string name="editor_activity_title_new_taskdetail">Add Task Detail</string>
+    <string name="editor_activity_title_edit_taskdetail">Edit Task Detail</string>
 
     <!-- Dropdown preference -->
     <string name="pref_list_label" translatable="false">List</string>
@@ -56,7 +79,14 @@
     <string name="pref_show_true">Shown</string>
     <string name="pref_show_false">Hidden</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="text_fragment1">Item Fragment</string>
-    <string name="text_fragment2">Setting Fragment</string>
+    <!-- Priority Options -->
+    <string name="priority_low">Low</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_high">High</string>
+
+    <!-- Edit TaskDetail -->
+    <string name="taskdetail_description">Description</string>
+    <string name="hint_taskdetail_description">Task parent</string>
+    <string name="taskdetail_taskparent">Task</string>
+    <string name="taskdetail_priority">Priority</string>
 </resources>

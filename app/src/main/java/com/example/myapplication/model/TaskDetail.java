@@ -21,6 +21,9 @@ public class TaskDetail {
         this.priority = priority;
     }
 
+    // Get the id
+    public long getId() { return id; }
+
     // Get the description
     public String getDescription() { return description; }
 
