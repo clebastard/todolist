@@ -20,7 +20,6 @@ import com.example.myapplication.R;
 public class TaskProvider extends ContentProvider {
     /** Database helper that will provide us access to the database */
     private TaskDbHelper mDbHelper;
-    private SQLiteDatabase mDb;
 
     /** Tag for the log messages */
     public static final String LOG_TAG = TaskProvider.class.getSimpleName();
@@ -87,7 +86,7 @@ public class TaskProvider extends ContentProvider {
                 selection = TaskContract.TaskEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the task table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(TaskContract.TaskEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -100,7 +99,7 @@ public class TaskProvider extends ContentProvider {
                 selection = TaskContract.TaskDetailEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the taskDetail table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(TaskContract.TaskDetailEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -113,8 +112,7 @@ public class TaskProvider extends ContentProvider {
                 selection = TaskContract.TaskDetailViewEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
-                // Cursor containing that row of the table.
+                // This will perform a query on the taskDetail view
                 cursor = database.query(TaskContract.TaskDetailViewEntry.VIEW_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
@@ -182,8 +180,7 @@ public class TaskProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all listeners that the data has changed for the pet content URI
-        // uri: content://com.example.android.pets/pets
+        // Notify all listeners that the data has changed
         getContext().getContentResolver().notifyChange(uri, null);
 
         // Return the new URI with the ID (of the newly inserted row) appended at the end
@@ -202,26 +199,22 @@ public class TaskProvider extends ContentProvider {
         switch (match) {
             case TASKS:
                 // Delete all rows that match the selection and selection args
-                //return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
                 rowsDeleted = database.delete(TaskContract.TaskEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TASK_ID:
                 // Delete a single row given by the ID in the URI
                 selection = TaskContract.TaskEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                //return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
                 rowsDeleted = database.delete(TaskContract.TaskEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TASKDETAILS:
                 // Delete all rows that match the selection and selection args
-                //return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
                 rowsDeleted = database.delete(TaskContract.TaskDetailEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case TASKDETAIL_ID:
                 // Delete a single row given by the ID in the URI
                 selection = TaskContract.TaskEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                //return database.delete(PetContract.PetEntry.TABLE_NAME, selection, selectionArgs);
                 rowsDeleted = database.delete(TaskContract.TaskDetailEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
@@ -291,7 +284,6 @@ public class TaskProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Returns the number of database rows affected by the update statement
-        //return database.update(PetContract.PetEntry.TABLE_NAME, values, selection, selectionArgs);
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = 0;

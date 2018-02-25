@@ -44,9 +44,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public static SectionedRecyclerViewAdapter sectionAdapter;
     private RecyclerView sectionHeader;
 
-    /*
-    * Indicate this fragment has menu
-    */
+    // Indicate this fragment has menu
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +57,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_list, container, false);
-
-        //insertTaskData(mDb);
 
         getActivity().setTitle(R.string.List);
         sectionAdapter = new SectionedRecyclerViewAdapter();
@@ -88,7 +84,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Boolean spinnerOn = sharedPreferences.getBoolean(getString(R.string.pref_show_dropdown_key), getResources().getBoolean(R.bool.pref_show_dropdown_default));
-        //Toast.makeText(getContext(), "Spiner is " + spinnerOn, Toast.LENGTH_SHORT).show();
 
         MenuItem item = menu.findItem(R.id.spinner);
 
@@ -127,39 +122,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    private List<String> getDataTasks(int i){
-
-        List<String> data = new ArrayList<>();
-        int action = getResources().getIdentifier("actionTask" + i, "array", getActivity().getPackageName());
-        for (String actionTask : getResources().getStringArray(action)) {
-            data.add(actionTask);
-        }
-        return data;
-    }
-
-    // Query the mDb and get all tasks from the table
-    /*private Cursor getAllTasks() {
-        String table = TaskContract.TaskEntry.TABLE_NAME + " , " + TaskContract.TaskDetailEntry.TABLE_NAME;
-        String columns[] = {
-                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID,
-                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME,
-                TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + " AS parent",
-                TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PRIORITY
-        };
-        String selection = TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry._ID + " = " + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID;
-        String group = TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_PARENT_ID + "," + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry._ID;
-        String order = TaskContract.TaskEntry.TABLE_NAME + "." + TaskContract.TaskEntry.COLUMN_TASK_NAME + "," + TaskContract.TaskDetailEntry.TABLE_NAME + "." + TaskContract.TaskDetailEntry.COLUMN_TASKDETAIL_NAME;
-        return mDb.query(
-                table,
-                columns,
-                selection,
-                null,
-                group,
-                null,
-                order
-        );
-    }*/
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -208,11 +170,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 } else {
                     data.add(new TaskDetail(id, taskName, parentTask, priority));
                 }
-                //Toast.makeText(getContext(), parentTask + " " + taskName, Toast.LENGTH_SHORT).show();
-                // add the bookName into the bookTitles ArrayList
-                //HeaderRecyclerViewSection newSection = new HeaderRecyclerViewSection(getContext(), taskName, getDataTasks(i));
-                //sectionAdapter.addSection(newSection);
-                //i++;
                 // move to next row
             } while (cursor.moveToNext());
         }
@@ -232,7 +189,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onListItemClickListener(long id) {
         showDeleteConfirmationDialog(getContext(), id);
-        //Toast.makeText(getContext(), "Test " + id, Toast.LENGTH_SHORT).show();
     }
 
     public void showDeleteConfirmationDialog(final Context context, final long idx) {
@@ -253,16 +209,12 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                             Toast.LENGTH_SHORT).show();
                 }
 
-                //Toast.makeText(context, context.getString(R.string.inDevelopment) + " position " + idx,
-                //        Toast.LENGTH_SHORT).show();
                 // Kick off the loader
                 resetLoader(1);
             }
         });
         builder.setNegativeButton(R.string.cancelTitle, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the list.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
